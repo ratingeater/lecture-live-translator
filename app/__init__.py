@@ -1,0 +1,1 @@
+"""Lecture live translator package."""
