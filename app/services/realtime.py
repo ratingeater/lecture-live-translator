@@ -112,6 +112,7 @@ class RealtimeTranscriptionSession:
         model = choose_speech_model(
             streaming=True,
             auto_detect=self._payload.source_mode == "auto",
+            location=self._payload.speech_location or self._settings.speech_location,
         )
         config = build_streaming_recognition_config(
             language_codes=self._payload.source_language_codes,

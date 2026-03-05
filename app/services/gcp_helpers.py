@@ -7,7 +7,9 @@ def build_recognizer_name(project_id: str, location: str, recognizer_id: str) ->
     return f"projects/{project_id}/locations/{location}/recognizers/{recognizer_id}"
 
 
-def choose_speech_model(*, streaming: bool, auto_detect: bool) -> str:
+def choose_speech_model(*, streaming: bool, auto_detect: bool, location: str) -> str:
+    if location == "global":
+        return "long"
     if auto_detect:
         return "long"
     return "chirp_3" if streaming else "chirp_3"

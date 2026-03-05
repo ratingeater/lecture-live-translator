@@ -199,7 +199,8 @@ function Write-OrUpdateEnvValue {
     $lines += "$Key=$Value"
   }
 
-  Set-Content -Path $script:envFile -Value $lines -Encoding UTF8
+  $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllLines($script:envFile, $lines, $utf8NoBom)
 }
 
 function Should-WriteEnv {

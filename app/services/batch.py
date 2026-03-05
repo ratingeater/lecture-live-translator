@@ -60,7 +60,11 @@ class BatchTranscribeService:
         )
         config = build_batch_recognition_config(
             language_codes=language_codes,
-            model=choose_speech_model(streaming=False, auto_detect=auto_detect),
+            model=choose_speech_model(
+                streaming=False,
+                auto_detect=auto_detect,
+                location=speech_location,
+            ),
         )
         request = cloud_speech.BatchRecognizeRequest(
             recognizer=build_recognizer_name(
