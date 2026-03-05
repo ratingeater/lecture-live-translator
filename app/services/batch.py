@@ -191,4 +191,11 @@ def save_upload_copy(file_path: Path, destination_dir: Path) -> Path:
 
 
 def _duration_to_seconds(duration) -> float:
-    return float(duration.seconds) + (float(duration.nanos) / 1_000_000_000)
+    if duration is None:
+        return 0.0
+    if hasattr(duration, "total_seconds"):
+        return float(duration.total_seconds())
+    seconds = getattr(duration, "seconds", 0)
+    nanos = getattr(duration, "nanos", 0)
+    microseconds = getattr(duration, "microseconds", 0)
+    return float(seconds) + (float(nanos) / 1_000_000_000) + (float(microseconds) / 1_000_000)

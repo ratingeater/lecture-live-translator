@@ -49,6 +49,8 @@ async def websocket_realtime(websocket: WebSocket) -> None:
         session.start()
         while True:
             message = await websocket.receive()
+            if message["type"] == "websocket.disconnect":
+                break
             chunk = message.get("bytes")
             if chunk:
                 session.push_audio(chunk)
