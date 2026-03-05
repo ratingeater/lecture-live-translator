@@ -40,8 +40,7 @@ if ($env:VIRTUAL_ENV) {
 @(
   (Join-Path $projectRoot ".venv312\Scripts\python.exe"),
   (Join-Path $projectRoot ".venv\Scripts\python.exe")
-) | Select-Object -Unique
-| ForEach-Object { Add-PythonCandidate -Path $_ }
+) | Select-Object -Unique | ForEach-Object { Add-PythonCandidate -Path $_ }
 
 $python = $pythonCandidates |
   Select-Object -Unique |
