@@ -18,7 +18,7 @@ function Test-UvicornAvailable {
     [string]$PythonPath
   )
 
-  & $PythonPath -c "import uvicorn" *> $null
+  & $PythonPath -c "import importlib.util; import sys; sys.exit(0 if importlib.util.find_spec('uvicorn') else 1)" > $null 2>&1
   return ($LASTEXITCODE -eq 0)
 }
 
