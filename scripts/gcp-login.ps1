@@ -162,6 +162,16 @@ function Resolve-CredentialFile {
   }
 }
 
+function Get-CredentialFileType {
+  param(
+    [Parameter(Mandatory = $true)]
+    [string]$Path
+  )
+
+  $json = Get-Content -Path $Path -Raw | ConvertFrom-Json
+  return $json.type
+}
+
 function Write-OrUpdateEnvValue {
   param(
     [Parameter(Mandatory = $true)]
@@ -244,6 +254,10 @@ if (-not $SkipLogin) {
   if ($resolvedAuthMode -eq "Adc") {
     Invoke-GCloud -Arguments @("auth", "login", "--update-adc")
   } else {
+    $credentialType = Get-CredentialFileType -Path $resolvedCredentialFile
+    if ($credentialType -ne "service_account") {
+      throw "The file '$resolvedCredentialFile' is type '$credentialType', not 'service_account'. Use ADC mode for application_default_credentials.json."
+    }
     Invoke-GCloud -Arguments @(
       "auth", "activate-service-account",
       "--key-file", $resolvedCredentialFile
